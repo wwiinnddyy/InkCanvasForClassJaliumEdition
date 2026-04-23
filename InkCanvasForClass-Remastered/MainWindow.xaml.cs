@@ -37,6 +37,7 @@ namespace InkCanvasForClass_Remastered
         private readonly INotificationService _notificationService;
         private readonly ILogger<MainWindow> Logger;
         public Settings Settings => _settingsService.Settings;
+        private JaliumSettings.JaliumSettingsWindow? _jaliumSettingsWindow;
 
 
         #region Window Initialization
@@ -126,6 +127,34 @@ namespace InkCanvasForClass_Remastered
                     StartOrStopTimerKillProcess();
                     break;
             }
+        }
+
+        private void OpenJaliumSettings()
+        {
+            if (_jaliumSettingsWindow != null)
+            {
+                _jaliumSettingsWindow.Close();
+                _jaliumSettingsWindow = null;
+            }
+
+            _jaliumSettingsWindow = new JaliumSettings.JaliumSettingsWindow(Settings);
+            _jaliumSettingsWindow.SettingsClosed += (s, e) =>
+            {
+                _jaliumSettingsWindow = null;
+                _settingsService.SaveSettings();
+            };
+
+            var thread = new System.Threading.Thread(() =>
+            {
+                _jaliumSettingsWindow.Show();
+            });
+            thread.SetApartmentState(System.Threading.ApartmentState.STA);
+            thread.Start();
+        }
+
+        private void OpenJaliumSettings_Click(object sender, RoutedEventArgs e)
+        {
+            OpenJaliumSettings();
         }
 
         private void UpdateEraserShape()

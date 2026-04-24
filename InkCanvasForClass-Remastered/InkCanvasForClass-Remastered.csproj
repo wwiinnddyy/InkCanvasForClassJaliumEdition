@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -68,5 +68,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+  <!-- JaliumControls is excluded temporarily due to type conflicts with WPF
+  <ItemGroup>
+    <Compile Remove="JaliumControls\**" />
+    <None Remove="JaliumControls\**" />
+  </ItemGroup>
+  -->
 
 </Project>

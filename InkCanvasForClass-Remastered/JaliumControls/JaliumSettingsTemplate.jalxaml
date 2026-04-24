@@ -1,0 +1,153 @@
+<Window xmlns="https://jalium.dev/ui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ICC-Re 设置"
+        Width="900"
+        Height="600"
+        MinWidth="800"
+        MinHeight="500"
+        Background="#202020"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 左侧导航面板 -->
+        <Border Grid.Column="0"
+                Background="#2a2a2a"
+                BorderBrush="#3a3a3a"
+                BorderThickness="0,0,1,0">
+            <StackPanel Margin="16">
+                <!-- Logo区域 -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                    <TextBlock Text="ICC-Re"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="#60a5fa"/>
+                    <TextBlock Text="设置"
+                               FontSize="24"
+                               Foreground="#9ca3af"
+                               Margin="4,0,0,0"/>
+                </StackPanel>
+
+                <!-- 导航项 -->
+                <NavigationViewItem Content="画布" Icon="Edit" Tag="canvas" IsSelected="True"/>
+                <NavigationViewItem Content="手势" Icon="People" Tag="gesture"/>
+                <NavigationViewItem Content="外观" Icon="Color" Tag="appearance"/>
+                <NavigationViewItem Content="PPT" Icon="SlideLayout" Tag="ppt"/>
+                <NavigationViewItem Content="启动" Icon="Clock" Tag="startup"/>
+                <NavigationViewItem Content="高级" Icon="Settings" Tag="advanced"/>
+
+                <Separator Margin="0,16" Background="#3a3a3a"/>
+
+                <NavigationViewItem Content="关于" Icon="Info" Tag="about"/>
+            </StackPanel>
+        </Border>
+
+        <!-- 右侧内容区域 -->
+        <ScrollViewer Grid.Column="1"
+                      Padding="32"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ContentPanel">
+                <!-- 画布设置页面 -->
+                <StackPanel x:Name="CanvasPage" Visibility="Visible">
+                    <TextBlock Text="画布设置"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,0,24"/>
+
+                    <!-- 墨迹设置卡片 -->
+                    <SettingsCard Title="墨迹">
+                        <SettingsItem Header="墨迹宽度" Description="新笔触的默认线条粗细">
+                            <NumberBox Value="5" Minimum="0.5" Maximum="20" SmallChange="0.5"/>
+                        </SettingsItem>
+                        <SettingsItem Header="墨迹颜色" Description="默认墨迹颜色">
+                            <ColorPicker/>
+                        </SettingsItem>
+                        <SettingsItem Header="压力敏感度" Description="根据笔压力度调整线条粗细">
+                            <ToggleSwitch IsOn="True"/>
+                        </SettingsItem>
+                        <SettingsItem Header="显示笔迹光标" Description="在画布上显示当前笔/橡皮位置">
+                            <ToggleSwitch IsOn="True"/>
+                        </SettingsItem>
+                    </SettingsCard>
+
+                    <!-- 橡皮设置卡片 -->
+                    <SettingsCard Title="橡皮">
+                        <SettingsItem Header="橡皮形状" Description="橡皮擦的形状">
+                            <ComboBox SelectedIndex="0">
+                                <ComboBoxItem Content="圆形擦"/>
+                                <ComboBoxItem Content="黑板擦"/>
+                            </ComboBox>
+                        </SettingsItem>
+                        <SettingsItem Header="橡皮大小" Description="橡皮擦的默认大小">
+                            <Slider Value="3" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                        </SettingsItem>
+                    </SettingsCard>
+                </StackPanel>
+
+                <!-- 手势设置页面 -->
+                <StackPanel x:Name="GesturePage" Visibility="Collapsed">
+                    <TextBlock Text="手势设置"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,0,24"/>
+
+                    <SettingsCard Title="多点触控">
+                        <SettingsItem Header="启用多点触控" Description="启用多点触控操作">
+                            <ToggleSwitch IsOn="True"/>
+                        </SettingsItem>
+                        <SettingsItem Header="双指缩放" Description="使用双指缩放画布">
+                            <ToggleSwitch IsOn="False"/>
+                        </SettingsItem>
+                        <SettingsItem Header="双指移动" Description="使用双指移动画布">
+                            <ToggleSwitch IsOn="True"/>
+                        </SettingsItem>
+                        <SettingsItem Header="双指旋转" Description="使用双指旋转选区">
+                            <ToggleSwitch IsOn="False"/>
+                        </SettingsItem>
+                    </SettingsCard>
+                </StackPanel>
+
+                <!-- 关于页面 -->
+                <StackPanel x:Name="AboutPage" Visibility="Collapsed">
+                    <TextBlock Text="关于"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,0,24"/>
+
+                    <Border Background="#2a2a2a"
+                            CornerRadius="8"
+                            Padding="24">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="ICC-Re"
+                                       FontSize="32"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="墨迹课堂"
+                                       FontSize="16"
+                                       Foreground="#60a5fa"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,8,0,16"/>
+                            <TextBlock Text="版本 2.0.0"
+                                       FontSize="14"
+                                       Foreground="#9ca3af"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="基于 Jalium.UI 框架构建"
+                                       FontSize="12"
+                                       Foreground="#6b7280"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

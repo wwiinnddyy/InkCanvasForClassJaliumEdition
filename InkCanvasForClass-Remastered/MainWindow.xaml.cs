@@ -2,6 +2,7 @@ using InkCanvasForClass_Remastered.Controls;
 using InkCanvasForClass_Remastered.Enums;
 using InkCanvasForClass_Remastered.Helpers;
 using InkCanvasForClass_Remastered.Interfaces;
+using InkCanvasForClass_Remastered.JaliumControls;
 using InkCanvasForClass_Remastered.Models;
 using InkCanvasForClass_Remastered.Services;
 using InkCanvasForClass_Remastered.ViewModels;
@@ -29,6 +30,8 @@ using Point = System.Windows.Point;
 
 namespace InkCanvasForClass_Remastered
 {
+    using Thickness = System.Windows.Thickness;
+
     public partial class MainWindow : Window
     {
         public readonly MainViewModel _viewModel;
@@ -38,6 +41,7 @@ namespace InkCanvasForClass_Remastered
         private readonly ILogger<MainWindow> Logger;
         public Settings Settings => _settingsService.Settings;
         private JaliumSettings.JaliumSettingsWindow? _jaliumSettingsWindow;
+        private JaliumMainToolbar? _jaliumMainToolbar;
 
 
         #region Window Initialization
@@ -267,6 +271,8 @@ namespace InkCanvasForClass_Remastered
 
             Logger.LogInformation("MainWindow Loaded");
 
+            InitializeJaliumToolbar();
+
             isLoaded = true;
 
             BlackBoardLeftSidePageListView.ItemsSource = blackBoardSidePageListViewObservableCollection;
@@ -280,6 +286,76 @@ namespace InkCanvasForClass_Remastered
             {
                 topmostRefreshTimer.Tick += TopmostRefreshTimer_Tick;
                 topmostRefreshTimer.Start();
+            }
+        }
+
+        private void InitializeJaliumToolbar()
+        {
+            _jaliumMainToolbar = new JaliumMainToolbar();
+
+            _jaliumMainToolbar.ToolSelected += (s, toolType) =>
+            {
+                switch (toolType)
+                {
+                    case ToolType.Cursor:
+                        CursorFloatingBarButton_Click(null, null);
+                        break;
+                    case ToolType.Pen:
+                        PenIcon_Click(null, null);
+                        break;
+                    case ToolType.Highlighter:
+                        break;
+                    case ToolType.Eraser:
+                        EraserIcon_Click(null, null);
+                        break;
+                    case ToolType.Gesture:
+                        TwoFingerGestureBorder_MouseUp(null, null);
+                        break;
+                    case ToolType.Clear:
+                        BtnClear_Click(null, null);
+                        break;
+                    case ToolType.Settings:
+                        OpenJaliumSettings();
+                        break;
+                }
+            };
+
+            _jaliumMainToolbar.PenWidthChanged += (s, width) =>
+            {
+                InkWidthSlider.Value = width;
+            };
+
+            _jaliumMainToolbar.PenAlphaChanged += (s, alpha) =>
+            {
+                InkAlphaSlider.Value = alpha;
+            };
+
+            _jaliumMainToolbar.PenColorChanged += (s, colorName) =>
+            {
+                SetInkColorByName(colorName);
+            };
+
+            _jaliumMainToolbar.Show();
+            Logger.LogInformation("JaliumMainToolbar initialized and shown");
+        }
+
+        private void SetInkColorByName(string colorName)
+        {
+            var colorMap = new Dictionary<string, Action>
+            {
+                { "Black", () => BtnColorBlack_Click(null, null) },
+                { "White", () => BtnColorWhite_Click(null, null) },
+                { "Red", () => BtnColorRed_Click(null, null) },
+                { "Yellow", () => BtnColorYellow_Click(null, null) },
+                { "Green", () => BtnColorGreen_Click(null, null) },
+                { "Blue", () => BtnColorBlue_Click(null, null) },
+                { "Pink", () => BtnColorPink_Click(null, null) },
+                { "Orange", () => BtnColorOrange_Click(null, null) }
+            };
+
+            if (colorMap.TryGetValue(colorName, out var action))
+            {
+                action.Invoke();
             }
         }
 

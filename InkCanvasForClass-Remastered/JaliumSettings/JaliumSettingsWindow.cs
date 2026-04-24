@@ -885,18 +885,18 @@ public class JaliumSettingsWindow
             IsSnapToTickEnabled = true,
             Width = 100
         };
-        slider.ValueChanged += (s, e) =>
-        {
-            onChanged(e.NewValue);
-            valueText.Text = $" {e.NewValue}%";
-        };
-        sliderPanel.Children.Add(slider);
         var valueText = new TextBlock
         {
             Text = $" {value}%",
             Foreground = new SolidColorBrush(ToColor("#9ca3af")),
             VerticalAlignment = VerticalAlignment.Center
         };
+        slider.ValueChanged += (s, e) =>
+        {
+            onChanged(e.NewValue);
+            valueText.Text = $" {e.NewValue}%";
+        };
+        sliderPanel.Children.Add(slider);
         sliderPanel.Children.Add(valueText);
         Grid.SetColumn(sliderPanel, 1);
         grid.Children.Add(sliderPanel);

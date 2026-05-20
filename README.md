@@ -22,6 +22,9 @@ InkCanvasForClass-Remastered (简称 ICC-Re) 基于 `icc-0610fix` 进行二次�
   
 为了保持项目整洁，我选择新建仓库而不是直接 fork，所以没有原始 commit 历史。
 
+然后我wwiinnddyy想把re移植到Jalium，最后发现更麻烦，不如重新开发一个
+
+
 ### 致谢
 
 感谢原项目及上游贡献者的努力：  
